@@ -1,8 +1,9 @@
 import React from "react"
-import { useStaticQuery, graphql, Link } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby"
 import styled from "styled-components"
 import moment from "moment"
-import { ResponsiveLine } from "@nivo/line"
+
+import Header from "../components/header"
 
 const query = graphql`
   {
@@ -18,17 +19,6 @@ const query = graphql`
         timestamp
       }
     }
-  }
-`
-
-const StyledNav = styled.nav`
-  ul {
-    padding: 0;
-    display: flex;
-    list-style-type: none;
-  }
-  li:not(:first-child) {
-    margin-left: 30px;
   }
 `
 
@@ -89,31 +79,7 @@ export default () => {
         fontFamily: "-apple-system",
       }}
     >
-      <header style={{ display: "flex", justifyContent: "space-between" }}>
-        <h1>Gatsby Stats</h1>
-        <StyledNav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/">Issues</Link>
-            </li>
-            <li>
-              <Link to="/">Pull Requests</Link>
-            </li>
-            <li>
-              <Link to="/">Stars</Link>
-            </li>
-            <li>
-              <Link to="/">Site Showcase Stats</Link>
-            </li>
-            <li>
-              <Link to="/">Docs Stats</Link>
-            </li>
-          </ul>
-        </StyledNav>
-      </header>
+      <Header />
       <h2>Current Statistics</h2>
       <MainStats>
         <div>
@@ -141,16 +107,6 @@ export default () => {
           <span>Stars</span>
         </div>
       </MainStats>
-      <h2>Stars over the past week</h2>
-      <div style={{ height: 400 }}>
-        <ResponsiveLine
-          data={[starsGraphData]}
-          dotSize={10}
-          yScale={{ min: "auto", max: "auto", type: "linear" }}
-          margin={{ top: 75, left: 75, right: 75, bottom: 75 }}
-          colors={"pastel1"}
-        />
-      </div>
       <h2>Past Week</h2>
       <StyledTable>
         <thead>
