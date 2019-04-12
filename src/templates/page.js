@@ -27,7 +27,9 @@ const PageTemplate = props => {
     data: [],
   }
 
-  data.reverse()
+  data.sort((a, b) => {
+    return a.timestamp - b.timestamp
+  })
 
   data.forEach(point => {
     graphData.data.push({
@@ -35,6 +37,8 @@ const PageTemplate = props => {
       y: point.value,
     })
   })
+
+  let lastEntry = {}
 
   return (
     <div
@@ -101,6 +105,36 @@ const PageTemplate = props => {
           colors={"accent"}
         />
       </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>{props.pageContext.prefix}</th>
+            <th>Growth since Last Entry</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map(entry => {
+            let growth = lastEntry.value ? entry.value - lastEntry.value : 0
+            lastEntry = entry
+
+            return (
+              <tr>
+                <td>{moment.unix(entry.timestamp).format("llll")}</td>
+                <td>{entry.value.toLocaleString()}</td>
+                <td
+                  style={{
+                    color:
+                      growth > 0 ? "green" : growth < 0 ? "red" : "inherit",
+                  }}
+                >
+                  {(growth > 0 ? "+" : "") + growth}
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </div>
   )
 }
